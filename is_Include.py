@@ -8,36 +8,48 @@ def compare_in(target_file , data_file):
     target_R = open(target_file, "r")
     data_R = open(data_file, "r")
 
-    data_lines = data_R.readlines()         #读取所有data文件中的行
+    target_list = target_R.read()      #读取所有target文件内容 注意是.read()
+    data_list = data_R.readlines()
+
     with open(result,"w",) as f:
-        for line in target_R.readlines():       #依次读取target文件中的每行  
-            line = line.strip()                #去掉每行头尾空白  
-            match_result = re.search( line, "%s" %  data_lines, re.M | re.I); #re.M 多行匹配，影响 ^ 和 $,re.I使匹配对大小写不敏感
-            #正则匹配开始，使用search可以将全部符合条件的字符集都找出来
-            if(match_result):
-                print(line +"  in the database!")
+        for line_data in data_list:             #依次读取data文件中的每行
+            line_data = line_data.strip()   #去掉每行头尾空白   
+            matchObj = re.search( r"\b"+line_data+r"\b", "%s" %  target_list, re.M); #re.M 多行匹配，影响 ^ 和 $,re.I使匹配对大小写不敏感  
+            if(matchObj):
+                print("[-]" + line_data +" in the target!")
                 try:
-                    f.writelines(line + '\n')
+                    f.writelines("[-]" + line_data +" in the target!"+'\n')
                 except:
                     continue
+                it = re.finditer(r".*\b"+line_data+r"\b.*", "%s" %  target_list, re.M) 
+                for match in it: 
+                    print ("   " + match.group() )
+                    try:
+                        f.writelines("   " + match.group() + '\n')
+                    except:
+                        continue
+            else:
+                continue
+    f.close() 
                 
 def compare_diff(target_file , data_file):
     # 打开文件
     target_R = open(target_file, "r")
     data_R = open(data_file, "r")
 
-    data_lines = data_R.readlines()         #读取所有data文件中的行
+    target_lines = target_R.read()
     with open(result,"w",) as f:
-        for line in target_R.readlines():       #依次读取target文件中的每行  
+        for line in data_R.readlines():       #依次读取data文件中的每行  
             line = line.strip()                #去掉每行头尾空白  
-            match_result = re.search( line, "%s" %  data_lines, re.M | re.I); #re.M 多行匹配，影响 ^ 和 $,re.I使匹配对大小写不敏感
+            matchObj = re.search( r"\b"+line+r"\b", "%s" %  target_lines, re.M | re.I); #re.M 多行匹配，影响 ^ 和 $,re.I使匹配对大小写不敏感
             #正则匹配开始，使用search可以将全部符合条件的字符集都找出来
-            if(match_result == None):
-                print(line +"  is not in the database!")
+            if(matchObj == None):
+                print(line +" is not in the target!")
                 try:
                     f.writelines(line + '\n')
                 except:
-                    continue           
+                    continue
+    f.close()           
 
     
 

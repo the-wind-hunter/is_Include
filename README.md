@@ -6,7 +6,11 @@
 
 该工具有两个模式，使用参数`-m`区分。`-m in` 将存在于B.txt中的A的字符串打印并储存，`-m diff` 将不存在于B.txt中的A的字符串打印并储存。
 
-## :gun:使用教程
+## :v: 版本：V2.0
+
+更新说明：使用正则表达式优化了比对速度。
+
+## :gun:使用教程 
 
 **安装依赖：**
 
@@ -38,21 +42,18 @@ optional arguments:
 ​	**target.txt**
 
 ```
-123
-456
-abc
-def
-rfv
+123.qq.com
+fdfas.qq.com
+xxx.baidu.com
+axa.123.com
+asdad.456.com
 ```
 
 ​	**data.txt**
 
 ```
-474
-7565123
-45623
-45313
-12346
+qq.com
+baidu.com
 ```
 
 执行命令：`python3 is_Include.py -t target.txt -d data.txt -r result.txt -m in`
@@ -60,8 +61,11 @@ rfv
 **输出结果result.txt**	
 
 ```
-123
-456
+[-]qq.com in the target!
+   123.qq.com
+   fdfas.qq.com
+[-]baidu.com in the target!
+   xxx.baidu.com
 ```
 
 
@@ -71,21 +75,17 @@ rfv
 ​	**target.txt**
 
 ```
-123
-456
-abc
-def
-rfv
+qq.com
+baidu.com
+123.com
+456.com
 ```
 
 ​	**data.txt**
 
 ```
-474
-7565123
-45623
-45313
-12346
+qq.com
+baidu.com
 ```
 
 执行命令：`python3 is_Include.py -t target.txt -d data.txt -r result.txt -m in`
@@ -93,7 +93,10 @@ rfv
 **输出结果result.txt**	
 
 ```
-abc
-def
-rfv
+123.com
+456.com
 ```
+
+## :umbrella:使用截图
+
+![image-20211209111151739](E:\hack_tools\python小脚本\python比对包含关系\正则版\image-20211209111151739.png)
